@@ -1,0 +1,3 @@
+[submodule "Kampf-Esp32-Controller/lib/Kampf"]
+	path = Kampf-Esp32-Controller/lib/Kampf
+	url = https://github.com/Explothusist/Kampf-RIOT-Battlebots-Library
