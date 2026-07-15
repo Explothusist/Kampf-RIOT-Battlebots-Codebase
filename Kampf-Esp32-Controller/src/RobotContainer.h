@@ -20,6 +20,7 @@ class RobotContainer {
 
         // Custom methods here
         static atmt::JoystickState getJoystickStateFromGPIO();
+        static double getBatteryPercentFromGPIO();
 
         // Declare Subsystems here (as public)
         atmt::ESPNowHandler* m_espnow_handler;

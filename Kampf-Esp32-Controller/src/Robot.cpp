@@ -3,6 +3,7 @@
 // #include "Automat/automat.h"
 #include "Constants.h"
 #include "utils/U8g2_utils.h"
+#include "kampf.h"
 
 Robot::Robot():
     atmt::TimedRobot(consts::robot::AutonomousLength), // Set Autonomous length here
@@ -64,7 +65,8 @@ void Robot::robotPeriodic() { // Runs continuously regardless of mode
 
     if (m_bot_cont->m_transmitter->isConnected()) {
         if (m_bot_cont->m_draw_loop_timeout.checkTimeout()) {
-            u8g2::printMainMenu(RobotContainer::getJoystickStateFromGPIO(), true);
+            double battery_percent = RobotContainer::getBatteryPercentFromGPIO();
+            u8g2::printMainMenu(RobotContainer::getJoystickStateFromGPIO(), true, static_cast<int>((battery_percent * 4) - 1));
         }
         return; // Else handled by transmitter periodic
     }
@@ -77,22 +79,42 @@ void Robot::robotPeriodic() { // Runs continuously regardless of mode
     }
 
     if (m_bot_cont->m_draw_loop_timeout.checkTimeout()) {
-        const std::vector<kmpf::KnownReceiver> known_receivers = m_bot_cont->m_transmitter->getKnownReceivers();
+        const std::vector<kmpf::KnownReceiver> &known_receivers = m_bot_cont->m_transmitter->getKnownReceivers();
         atmt::JoystickState state = RobotContainer::getJoystickStateFromGPIO();
 
         
         if (atmt::getJoystickStateButton(state, atmt::L1Button)) {
-            m_bot_cont->m_transmitter->pairWithReceiver(known_receivers[m_bot_cont->m_selected_mac_address]);
+            if (!known_receivers.empty() && m_bot_cont->m_selected_mac_address < known_receivers.size()) {
+                m_bot_cont->m_transmitter->pairWithReceiver(known_receivers[m_bot_cont->m_selected_mac_address]);
+            }
         }
         if (atmt::getJoystickStateButton(state, atmt::BButton) && !m_bot_cont->m_last_scroll_button_state) {
             m_bot_cont->m_selected_mac_address += 1;
+            if (m_bot_cont->m_mac_address_scroll <= m_bot_cont->m_selected_mac_address - kmpf::consts::Controller::k_MACsDrawnPerScreen) {
+                m_bot_cont->m_mac_address_scroll += 1;
+            }
             m_bot_cont->m_last_scroll_button_state = true;
         }else if (atmt::getJoystickStateButton(state, atmt::AButton) && !m_bot_cont->m_last_scroll_button_state) {
             m_bot_cont->m_selected_mac_address -= 1;
+            if (m_bot_cont->m_selected_mac_address < 0) {
+                m_bot_cont->m_selected_mac_address = known_receivers.size() - 1;
+                m_bot_cont->m_mac_address_scroll = known_receivers.size() - kmpf::consts::Controller::k_MACsDrawnPerScreen;
+            }
             m_bot_cont->m_last_scroll_button_state = true;
+            if (m_bot_cont->m_mac_address_scroll > m_bot_cont->m_selected_mac_address) {
+                m_bot_cont->m_mac_address_scroll -= 1;
+            }
         }else {
             m_bot_cont->m_last_scroll_button_state = false;
         }
+
+        if (m_bot_cont->m_selected_mac_address >= known_receivers.size()) {
+            m_bot_cont->m_selected_mac_address = 0;
+            m_bot_cont->m_mac_address_scroll = 0;
+        }
+
+
+        u8g2::drawSelectReceiver(known_receivers, m_bot_cont->m_selected_mac_address, m_bot_cont->m_mac_address_scroll);
     }
 };
 void Robot::robotExit() { // Runs once when the the robot is reset or powered off

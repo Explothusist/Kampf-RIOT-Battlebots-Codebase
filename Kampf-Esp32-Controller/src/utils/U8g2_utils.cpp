@@ -84,7 +84,7 @@ namespace u8g2 {
         m_u8g2.setFont(u8g2_font_open_iconic_all_1x_t);
 
         int glyph = getGlyphFromDirection(getDirectionFromXY(state.axes[atmt::LXAxis], state.axes[atmt::LYAxis], state.axis_range[0], state.axis_range[1]));
-        if (glyph != 0) {
+        if (glyph != kmpf::consts::Controller::U8g2::k_NoGlyph) {
             m_u8g2.drawGlyph(24, 42, glyph);
         }
 
@@ -117,16 +117,30 @@ namespace u8g2 {
         m_u8g2.sendBuffer();
     };
 
+    void drawSelectReceiver(const std::vector<kmpf::KnownReceiver> &receivers, int selected_index, int scroll) {
+        m_u8g2.clearBuffer();
+        m_u8g2.setFont(u8g2_font_ncenB08_tr);
+        m_u8g2.drawStr(20, 15, "List of Receivers:");
+        // Show the found receivers
+        for (int i = 0; i < kmpf::consts::Controller::k_MACsDrawnPerScreen; i++) {
+            int mod_i = i + scroll;
+            if (mod_i < receivers.size()) { // Check if index is within bounds
+                m_u8g2.drawButtonUTF8((128-m_u8g2.getUTF8Width(receivers[mod_i].name.c_str()))/2, i*20+30, mod_i == selected_index ? 0x02 : 0x20, 0,  2,  2, receivers[mod_i].name.c_str());
+            }
+        }
+        m_u8g2.sendBuffer();
+    };
+
 
     static const unsigned char* getImageFromBattery(uint8_t battery) {
         switch(battery){
-            case 0:
+            case kmpf::consts::Controller::U8g2::k_Battary_0_25:
                 return kU8g2Image_Battery_0_25;
-            case 1:
+            case kmpf::consts::Controller::U8g2::k_Battary_25_50:
                 return kU8g2Image_Battery_25_50;
-            case 2:
+            case kmpf::consts::Controller::U8g2::k_Battary_50_75:
                 return kU8g2Image_Battery_50_75;
-            case 3:
+            case kmpf::consts::Controller::U8g2::k_Battary_75_100:
                 return kU8g2Image_Battery_75_100;
             default:
                 return kU8g2Image_Battery_0_25;
@@ -134,15 +148,15 @@ namespace u8g2 {
     };
     static const unsigned char* getImageFromDirection(uint8_t direction) {
         switch (direction) {
-            case 0:
+            case kmpf::consts::Controller::U8g2::k_DirectionCenter:
                 return kU8g2Image_JoystickCenter;
-            case 1:
+            case kmpf::consts::Controller::U8g2::k_DirectionUp:
                 return kU8g2Image_JoystickUp;
-            case 2:
+            case kmpf::consts::Controller::U8g2::k_DirectionDown:
                 return kU8g2Image_JoystickDown;
-            case 3:
+            case kmpf::consts::Controller::U8g2::k_DirectionLeft:
                 return kU8g2Image_JoystickLeft;
-            case 4:
+            case kmpf::consts::Controller::U8g2::k_DirectionRight:
                 return kU8g2Image_JoystickRight;
             default:
                 return kU8g2Image_JoystickCenter;
@@ -153,18 +167,18 @@ namespace u8g2 {
     };
     static int getGlyphFromDirection(uint8_t direction) {
         switch (direction) {
-            case 0:
-                return 0;
-            case 1:
-                return 76;
-            case 2:
-                return 73;
-            case 3:
-                return 75;
-            case 4:
-                return 74;
+            case kmpf::consts::Controller::U8g2::k_DirectionCenter:
+                return kmpf::consts::Controller::U8g2::k_NoGlyph;
+            case kmpf::consts::Controller::U8g2::k_DirectionUp:
+                return kmpf::consts::Controller::U8g2::k_GlyphUp;
+            case kmpf::consts::Controller::U8g2::k_DirectionDown:
+                return kmpf::consts::Controller::U8g2::k_GlyphDown;
+            case kmpf::consts::Controller::U8g2::k_DirectionLeft:
+                return kmpf::consts::Controller::U8g2::k_GlyphLeft;
+            case kmpf::consts::Controller::U8g2::k_DirectionRight:
+                return kmpf::consts::Controller::U8g2::k_GlyphRight;
             default:
-                return 0;
+                return kmpf::consts::Controller::U8g2::k_NoGlyph;
         }
     };
 

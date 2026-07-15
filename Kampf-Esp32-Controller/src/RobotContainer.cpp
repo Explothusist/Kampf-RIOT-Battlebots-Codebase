@@ -39,6 +39,30 @@ atmt::JoystickState RobotContainer::getJoystickStateFromGPIO() {
 
     new_state.axis_range[0] = 0;
     new_state.axis_range[1] = 4096;
+
+    return new_state;
+};
+
+atmt::JoystickState RobotContainer::getJoystickStateFromGPIO() {
+    atmt::JoystickState new_state;
+
+    atmt::setJoystickStateButton(new_state, atmt::AButton, digitalRead(kmpf::consts::Controller::GPIO::k_TopButton));
+    atmt::setJoystickStateButton(new_state, atmt::BButton, digitalRead(kmpf::consts::Controller::GPIO::k_BottomButton));
+    atmt::setJoystickStateButton(new_state, atmt::L1Button, digitalRead(kmpf::consts::Controller::GPIO::k_LeftTrigger));
+    atmt::setJoystickStateButton(new_state, atmt::R1Button, digitalRead(kmpf::consts::Controller::GPIO::k_RightTrigger));
+
+    new_state.axes[atmt::LXAxis] = analogRead(kmpf::consts::Controller::GPIO::k_AxisLX);
+    new_state.axes[atmt::LYAxis] = analogRead(kmpf::consts::Controller::GPIO::k_AxisLY);
+    new_state.axes[atmt::RXAxis] = analogRead(kmpf::consts::Controller::GPIO::k_AxisRX);
+    new_state.axes[atmt::RYAxis] = analogRead(kmpf::consts::Controller::GPIO::k_AxisRY);
+
+    new_state.axis_range[0] = 0;
+    new_state.axis_range[1] = 4096;
+
+    return new_state;
+};
+double RobotContainer::getBatteryPercentFromGPIO() {
+    return analogRead(kmpf::consts::Controller::GPIO::k_AnalogBatteryPower) / 255;
 };
 
 atmt::Command* RobotContainer::getAutonomousCommand(int indicator, void* robot_container) {

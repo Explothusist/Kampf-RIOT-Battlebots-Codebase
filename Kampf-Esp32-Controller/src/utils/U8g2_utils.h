@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <U8g2lib.h>
+#include "kampf.h"
 #include "Automat/automat.h"
 #include "U8g2_images.h"
 
@@ -26,6 +27,8 @@ namespace u8g2 {
     void printMainMenu(const atmt::JoystickState &state, bool connected, int battery = 0);
 
     void drawConfirmReceiver(const uint8_t selected_mac_addr[]);
+
+    void drawSelectReceiver(const std::vector<kmpf::KnownReceiver> &receivers, int selected_index, int scroll);
 
 };
 
