@@ -42,9 +42,9 @@ atmt::JoystickState RobotContainer::getJoystickStateFromGPIO() {
 
     return new_state;
 };
-double RobotContainer::getBatteryPercentFromGPIO() {
-    return analogRead(kmpf::consts::Controller::GPIO::k_AnalogBatteryPower) / 255;
-};
+// double RobotContainer::getBatteryPercentFromGPIO() {
+//     return analogRead(kmpf::consts::Controller::GPIO::k_AnalogBatteryPower) / 255;
+// };
 
 atmt::Command* RobotContainer::getAutonomousCommand(int indicator, void* robot_container) {
     RobotContainer* self = static_cast<RobotContainer*>(robot_container);

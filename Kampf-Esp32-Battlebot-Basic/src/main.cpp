@@ -1,18 +1,19 @@
+
 #include <Arduino.h>
+#include "Robot.h"
 
-// put function declarations here:
-int myFunction(int, int);
+Robot m_robot{ Robot() }; // Bindings and init configured here
 
-void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
-}
+void setup() { // NO OTHER CODE GOES IN THIS FILE! Use Robot.cpp instead
+    Serial.begin(115200);
+    atmt::platform_println("Starting");
+
+    m_robot.startLoop();
+    
+};
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
-}
+    m_robot.runLoop();
+
+};

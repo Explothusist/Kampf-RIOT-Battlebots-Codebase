@@ -65,8 +65,9 @@ void Robot::robotPeriodic() { // Runs continuously regardless of mode
 
     if (m_bot_cont->m_transmitter->isConnected()) {
         if (m_bot_cont->m_draw_loop_timeout.checkTimeout()) {
-            double battery_percent = RobotContainer::getBatteryPercentFromGPIO();
-            u8g2::printMainMenu(RobotContainer::getJoystickStateFromGPIO(), true, static_cast<int>((battery_percent * 4) - 1));
+            // double battery_percent = RobotContainer::getBatteryPercentFromGPIO();
+            // u8g2::printMainMenu(RobotContainer::getJoystickStateFromGPIO(), true, static_cast<int>((battery_percent * 4) - 1));
+            u8g2::printMainMenu(RobotContainer::getJoystickStateFromGPIO(), true, 3);
         }
         return; // Else handled by transmitter periodic
     }
