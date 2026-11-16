@@ -51,6 +51,57 @@ namespace u8g2 {
             }
         }
     }; 
+    static int getGlyphFromDirection(uint8_t direction) {
+        switch (direction) {
+            case kmpf::consts::Controller::U8g2::k_DirectionCenter:
+                return kmpf::consts::Controller::U8g2::k_NoGlyph;
+            case kmpf::consts::Controller::U8g2::k_DirectionUp:
+                return kmpf::consts::Controller::U8g2::k_GlyphUp;
+            case kmpf::consts::Controller::U8g2::k_DirectionDown:
+                return kmpf::consts::Controller::U8g2::k_GlyphDown;
+            case kmpf::consts::Controller::U8g2::k_DirectionLeft:
+                return kmpf::consts::Controller::U8g2::k_GlyphLeft;
+            case kmpf::consts::Controller::U8g2::k_DirectionRight:
+                return kmpf::consts::Controller::U8g2::k_GlyphRight;
+            default:
+                return kmpf::consts::Controller::U8g2::k_NoGlyph;
+        }
+    };
+
+
+    static const unsigned char* getImageFromBattery(uint8_t battery) {
+        switch(battery){
+            case kmpf::consts::Controller::U8g2::k_Battary_0_25:
+                return kU8g2Image_Battery_0_25;
+            case kmpf::consts::Controller::U8g2::k_Battary_25_50:
+                return kU8g2Image_Battery_25_50;
+            case kmpf::consts::Controller::U8g2::k_Battary_50_75:
+                return kU8g2Image_Battery_50_75;
+            case kmpf::consts::Controller::U8g2::k_Battary_75_100:
+                return kU8g2Image_Battery_75_100;
+            default:
+                return kU8g2Image_Battery_0_25;
+        }
+    };
+    static const unsigned char* getImageFromDirection(uint8_t direction) {
+        switch (direction) {
+            case kmpf::consts::Controller::U8g2::k_DirectionCenter:
+                return kU8g2Image_JoystickCenter;
+            case kmpf::consts::Controller::U8g2::k_DirectionUp:
+                return kU8g2Image_JoystickUp;
+            case kmpf::consts::Controller::U8g2::k_DirectionDown:
+                return kU8g2Image_JoystickDown;
+            case kmpf::consts::Controller::U8g2::k_DirectionLeft:
+                return kU8g2Image_JoystickLeft;
+            case kmpf::consts::Controller::U8g2::k_DirectionRight:
+                return kU8g2Image_JoystickRight;
+            default:
+                return kU8g2Image_JoystickCenter;
+        }
+    };
+    static const unsigned char* getImageFromButton(bool button) {
+        return button ? kU8g2Image_ButtonPressed : kU8g2Image_ButtonUnpressed;
+    };
 
     // void printMainMenu(uint16_t analogPins[], bool digitalPins[], uint8_t dir[], bool connected, int battery) {
     void printMainMenu(const atmt::JoystickState &state, bool connected, int battery) {
@@ -129,57 +180,6 @@ namespace u8g2 {
             }
         }
         m_u8g2.sendBuffer();
-    };
-
-
-    static const unsigned char* getImageFromBattery(uint8_t battery) {
-        switch(battery){
-            case kmpf::consts::Controller::U8g2::k_Battary_0_25:
-                return kU8g2Image_Battery_0_25;
-            case kmpf::consts::Controller::U8g2::k_Battary_25_50:
-                return kU8g2Image_Battery_25_50;
-            case kmpf::consts::Controller::U8g2::k_Battary_50_75:
-                return kU8g2Image_Battery_50_75;
-            case kmpf::consts::Controller::U8g2::k_Battary_75_100:
-                return kU8g2Image_Battery_75_100;
-            default:
-                return kU8g2Image_Battery_0_25;
-        }
-    };
-    static const unsigned char* getImageFromDirection(uint8_t direction) {
-        switch (direction) {
-            case kmpf::consts::Controller::U8g2::k_DirectionCenter:
-                return kU8g2Image_JoystickCenter;
-            case kmpf::consts::Controller::U8g2::k_DirectionUp:
-                return kU8g2Image_JoystickUp;
-            case kmpf::consts::Controller::U8g2::k_DirectionDown:
-                return kU8g2Image_JoystickDown;
-            case kmpf::consts::Controller::U8g2::k_DirectionLeft:
-                return kU8g2Image_JoystickLeft;
-            case kmpf::consts::Controller::U8g2::k_DirectionRight:
-                return kU8g2Image_JoystickRight;
-            default:
-                return kU8g2Image_JoystickCenter;
-        }
-    };
-    static const unsigned char* getImageFromButton(bool button) {
-        return button ? kU8g2Image_ButtonPressed : kU8g2Image_ButtonUnpressed;
-    };
-    static int getGlyphFromDirection(uint8_t direction) {
-        switch (direction) {
-            case kmpf::consts::Controller::U8g2::k_DirectionCenter:
-                return kmpf::consts::Controller::U8g2::k_NoGlyph;
-            case kmpf::consts::Controller::U8g2::k_DirectionUp:
-                return kmpf::consts::Controller::U8g2::k_GlyphUp;
-            case kmpf::consts::Controller::U8g2::k_DirectionDown:
-                return kmpf::consts::Controller::U8g2::k_GlyphDown;
-            case kmpf::consts::Controller::U8g2::k_DirectionLeft:
-                return kmpf::consts::Controller::U8g2::k_GlyphLeft;
-            case kmpf::consts::Controller::U8g2::k_DirectionRight:
-                return kmpf::consts::Controller::U8g2::k_GlyphRight;
-            default:
-                return kmpf::consts::Controller::U8g2::k_NoGlyph;
-        }
     };
 
 };
