@@ -23,8 +23,11 @@ class RobotContainer {
         static double getBatteryPercentFromGPIO();
 
         std::string m_receiver_name = "Gesundheit";
-        
+
         // Declare Subsystems here (as public)
+        kmpf::Drivetrain* m_drivetrain;
+        kmpf::WeaponMotor* m_weapon;
+
         atmt::Joystick* m_controller;
         atmt::ESPNowHandler* m_espnow_handler;
         

@@ -25,7 +25,7 @@ void RobotContainer::configure_bindings() {
 };
 
 atmt::JoystickState RobotContainer::getJoystickStateFromGPIO() {
-    atmt::JoystickState new_state;
+    atmt::JoystickState new_state{ };
 
     atmt::setJoystickStateButton(new_state, atmt::AButton, digitalRead(kmpf::consts::Controller::GPIO::k_TopButton));
     atmt::setJoystickStateButton(new_state, atmt::BButton, digitalRead(kmpf::consts::Controller::GPIO::k_BottomButton));
@@ -35,13 +35,17 @@ atmt::JoystickState RobotContainer::getJoystickStateFromGPIO() {
     new_state.axes[atmt::LXAxis] = analogRead(kmpf::consts::Controller::GPIO::k_AxisLX);
     new_state.axes[atmt::LYAxis] = analogRead(kmpf::consts::Controller::GPIO::k_AxisLY);
     new_state.axes[atmt::RXAxis] = analogRead(kmpf::consts::Controller::GPIO::k_AxisRX);
-    new_state.axes[atmt::RYAxis] = analogRead(kmpf::consts::Controller::GPIO::k_AxisRY);
+    new_state.axes[atmt::RYAxis] = 4096 - analogRead(kmpf::consts::Controller::GPIO::k_AxisRY); // Yes, this is on purpose
+
+    // atmt::platform_printf("Buttons: %d, LX: %f, LY: %f, RX: %f, RY: %f\n", new_state.buttons, new_state.axes[atmt::LXAxis], new_state.axes[atmt::LYAxis], new_state.axes[atmt::RXAxis], new_state.axes[atmt::RYAxis]);
 
     new_state.axis_range[0] = 0;
     new_state.axis_range[1] = 4096;
 
     return new_state;
 };
+
+// // Reading the ADC pin causes flaming crash and burn
 // double RobotContainer::getBatteryPercentFromGPIO() {
 //     return analogRead(kmpf::consts::Controller::GPIO::k_AnalogBatteryPower) / 255;
 // };

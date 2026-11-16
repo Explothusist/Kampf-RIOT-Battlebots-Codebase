@@ -65,7 +65,7 @@ void Robot::robotPeriodic() { // Runs continuously regardless of mode
 
     if (m_bot_cont->m_transmitter->isConnected()) {
         if (m_bot_cont->m_draw_loop_timeout.checkTimeout()) {
-            // double battery_percent = RobotContainer::getBatteryPercentFromGPIO();
+            // double battery_percent = RobotContainer::getBatteryPercentFromGPIO(); // Reading the ADC pin causes flaming crash burn
             // u8g2::printMainMenu(RobotContainer::getJoystickStateFromGPIO(), true, static_cast<int>((battery_percent * 4) - 1));
             u8g2::printMainMenu(RobotContainer::getJoystickStateFromGPIO(), true, 3);
         }

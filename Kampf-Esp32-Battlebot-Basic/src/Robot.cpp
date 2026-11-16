@@ -21,6 +21,8 @@ void Robot::environmentInit() { // Runs once before anything else
     // Register all Subsystems
     // All Subsystems MUST be registered for periodics to run and for commands on those subsystems to run!
     registerSubsystem(m_bot_cont->m_receiver);
+    registerSubsystem(m_bot_cont->m_drivetrain);
+    registerSubsystem(m_bot_cont->m_weapon);
 
     // Add all Joysticks
     // All Joysticks MUST be registered for events to trigger!

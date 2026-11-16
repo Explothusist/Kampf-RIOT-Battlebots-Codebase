@@ -3,7 +3,7 @@
 
 namespace u8g2 {
 
-    U8G2_SSD1306_128X64_NONAME_F_HW_I2C m_u8g2(U8G2_R0, U8X8_PIN_NONE, /* clock=*/ 9, /* data=*/ 8);
+    U8G2_SSD1306_128X64_NONAME_F_HW_I2C m_u8g2(U8G2_R2, U8X8_PIN_NONE, /* clock=*/ 9, /* data=*/ 8);
 
     void drawRIOTLogo() {
         m_u8g2.clearBuffer();
@@ -35,19 +35,19 @@ namespace u8g2 {
 
         if (std::abs(x_percent) > std::abs(y_percent)) {
             if (x_percent > k_JoystickDisplayDeadband) {
-                return 4; // Right
+                return kmpf::consts::Controller::U8g2::k_DirectionRight; // Right
             }else if (x_percent < -k_JoystickDisplayDeadband) {
-                return 3; // Left
+                return kmpf::consts::Controller::U8g2::k_DirectionLeft; // Left
             }else {
-                return 0; // Center
+                return kmpf::consts::Controller::U8g2::k_DirectionCenter; // Center
             }
         }else {
             if (y_percent > k_JoystickDisplayDeadband) {
-                return 1; // Up
+                return kmpf::consts::Controller::U8g2::k_DirectionUp; // Up
             }else if (y_percent < -k_JoystickDisplayDeadband) {
-                return 2; // Down
+                return kmpf::consts::Controller::U8g2::k_DirectionDown; // Down
             }else {
-                return 0; // Center
+                return kmpf::consts::Controller::U8g2::k_DirectionCenter; // Center
             }
         }
     }; 
@@ -124,10 +124,10 @@ namespace u8g2 {
         // m_u8g2.drawXBMP(85, 5, kU8g2Image_ButtonImageWidth, kU8g2Image_ButtonImageHeight, getImageFromButton(digitalPins[1]));
         // m_u8g2.drawXBMP(90, 35, kU8g2Image_ButtonImageWidth, kU8g2Image_ButtonImageHeight, getImageFromButton(digitalPins[3]));
         // m_u8g2.drawXBMP(105, 21, kU8g2Image_ButtonImageWidth, kU8g2Image_ButtonImageHeight, getImageFromButton(digitalPins[2]));
-        m_u8g2.drawXBMP(65, 5, kU8g2Image_ButtonImageWidth, kU8g2Image_ButtonImageHeight, getImageFromButton(atmt::getJoystickStateButton(state, atmt::AButton)));
-        m_u8g2.drawXBMP(85, 5, kU8g2Image_ButtonImageWidth, kU8g2Image_ButtonImageHeight, getImageFromButton(atmt::getJoystickStateButton(state, atmt::BButton)));
-        m_u8g2.drawXBMP(90, 35, kU8g2Image_ButtonImageWidth, kU8g2Image_ButtonImageHeight, getImageFromButton(atmt::getJoystickStateButton(state, atmt::R1Button)));
-        m_u8g2.drawXBMP(105, 21, kU8g2Image_ButtonImageWidth, kU8g2Image_ButtonImageHeight, getImageFromButton(atmt::getJoystickStateButton(state, atmt::L1Button)));
+        m_u8g2.drawXBMP(65, 5, kU8g2Image_ButtonImageWidth, kU8g2Image_ButtonImageHeight, getImageFromButton(atmt::getJoystickStateButton(state, atmt::L1Button)));
+        m_u8g2.drawXBMP(85, 5, kU8g2Image_ButtonImageWidth, kU8g2Image_ButtonImageHeight, getImageFromButton(atmt::getJoystickStateButton(state, atmt::R2Button)));
+        m_u8g2.drawXBMP(90, 35, kU8g2Image_ButtonImageWidth, kU8g2Image_ButtonImageHeight, getImageFromButton(atmt::getJoystickStateButton(state, atmt::BButton)));
+        m_u8g2.drawXBMP(105, 21, kU8g2Image_ButtonImageWidth, kU8g2Image_ButtonImageHeight, getImageFromButton(atmt::getJoystickStateButton(state, atmt::AButton)));
 
 
         m_u8g2.drawXBMP(5, 20, 48, 35, kU8g2Image_Robot);
