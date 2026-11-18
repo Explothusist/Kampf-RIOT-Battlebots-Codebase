@@ -1,15 +1,17 @@
 
 #include "RobotContainer.h"
 
+#include "commands/ArmWeaponCommand.h"
 #include "commands/WeaponCommand.h"
 #include "commands/TeleopDriveCommand.h"
 
 RobotContainer::RobotContainer():
-    m_drivetrain{ new kmpf::Drivetrain() },
+    m_drivetrain{ new kmpf::Drivetrain(false, true) },
     m_weapon{ new kmpf::WeaponMotor() },
     m_controller{ new atmt::Joystick(atmt::PollMode_Manual) },
     m_espnow_handler{ new atmt::ESPNowHandler(random()) },
-    m_receiver{ new kmpf::ESPNowReceiver(m_receiver_name, m_controller, m_espnow_handler) }
+    m_heartbeat{ new atmt::Heartbeat(kmpf::consts::ESPNow::k_ESPNowDisableTimeoutMS) },
+    m_receiver{ new kmpf::ESPNowReceiver(m_receiver_name, m_controller, m_espnow_handler, m_heartbeat) }
 {
 
 };
@@ -25,8 +27,12 @@ void RobotContainer::configure_auto_bindings() {
 };
 void RobotContainer::configure_bindings() {
     m_controller->bindKey(
+        (new atmt::Trigger(atmt::AButton, atmt::ButtonPressed))->inMode(atmt::ModeTeleopOnly),
+        new ArmWeaponCommand(m_weapon)
+    );
+    m_controller->bindKey(
         (new atmt::Trigger(atmt::BButton, atmt::ButtonPressed))->setType(atmt::WhileTrigger)->inMode(atmt::ModeTeleopOnly),
-        new WeaponCommand(m_weapon, 1.0)
+        new WeaponCommand(m_weapon, 0.5)
     );
 
     m_drivetrain->setDefaultCommand(

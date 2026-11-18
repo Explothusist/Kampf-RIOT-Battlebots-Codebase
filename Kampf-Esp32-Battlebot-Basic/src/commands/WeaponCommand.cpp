@@ -1,7 +1,5 @@
 
 #include "WeaponCommand.h"
-#include <Arduino.h>
-#include <cmath>
 
 WeaponCommand::WeaponCommand(kmpf::WeaponMotor* weapon_motor, double percent_power):
     atmt::Command(),
@@ -24,13 +22,14 @@ atmt::Command* WeaponCommand::cloneSelf() const {
 };
 
 void WeaponCommand::initialize() {
-    atmt::platform_printf("WEAPON BEGUN$$$$$$$$$$$$$$$$$$$$$$$\n");
+    // atmt::platform_printf("WEAPON BEGUN$$$$$$$$$$$$$$$$$$$$$$$\n");
 };
 void WeaponCommand::execute() {
-    atmt::platform_printf("Running Weapon!!!!!!\n");
+    // atmt::platform_printf("Running Weapon!!!!!!\n");
+    m_weapon_motor->spinMotor(m_percent_power);
 };
 void WeaponCommand::end(bool interrupted) {
-    
+    m_weapon_motor->spinDown();
 };
 
 bool WeaponCommand::is_finished() {

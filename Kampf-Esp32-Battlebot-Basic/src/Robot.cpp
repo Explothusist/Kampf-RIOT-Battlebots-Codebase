@@ -31,6 +31,7 @@ void Robot::environmentInit() { // Runs once before anything else
     // Add SerialReaders/HTTPServers (if applicable)
     // Add Heartbeats/HeartbeatMakers (if applicable)
     registerESPNowHandler(m_bot_cont->m_espnow_handler);
+    registerHeartbeat(m_bot_cont->m_heartbeat);
     
     // Set up Autonomous (Do not edit unless you understand what you are doing)
     setAutonomousCommandGetter(RobotContainer::getAutonomousCommand, RobotContainer::getWhichAutonomousRoutine, m_bot_cont);

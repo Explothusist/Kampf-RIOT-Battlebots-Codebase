@@ -30,6 +30,7 @@ class RobotContainer {
 
         atmt::Joystick* m_controller;
         atmt::ESPNowHandler* m_espnow_handler;
+        atmt::Heartbeat* m_heartbeat;
         
         kmpf::ESPNowReceiver* m_receiver;
 

@@ -25,14 +25,19 @@ void TeleopDriveCommand::initialize() {
 
 };
 void TeleopDriveCommand::execute() {
-    atmt::platform_printf(
-        "Driving: %f, %f\n",
-        m_controller->getRawAxis(atmt::LXAxis) * 100,
-        m_controller->getRawAxis(atmt::LYAxis) * 100
+    // atmt::platform_printf(
+    //     "Driving: %f, %f\n",
+    //     m_controller->getRawAxis(atmt::LXAxis) * 100,
+    //     m_controller->getRawAxis(atmt::LYAxis) * 100
+    // );
+    m_drivetrain->driveArcade(
+        m_controller->getRawAxis(atmt::LXAxis),
+        m_controller->getRawAxis(atmt::LYAxis),
+        0.2
     );
 };
 void TeleopDriveCommand::end(bool interrupted) {
-
+    m_drivetrain->driveArcade(0.0, 0.0);
 };
 bool TeleopDriveCommand::is_finished() {
     return false;
